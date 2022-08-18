@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Buy Products</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.stripe.com/v3/"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav class="navbar bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logo.png" alt="" width="120">
+            </a>
+        </div>
+    </nav>
+
+    <div class="bg-light" cz-shortcut-listen="true">
+
+        <div class="container px-5 my-5">
+            <form id="contactForm" action='#' onsubmit="formCheckout()">
+                <div class="mb-3">
+                    <label class="form-label d-block">Campaign Type</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="leadGeneration" type="radio" name="campaignType" required />
+                        <label class="form-check-label" for="leadGeneration">Lead Generation</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="eventPromotion" type="radio" name="campaignType" />
+                        <label class="form-check-label" for="eventPromotion">Event Promotion</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="socialCompetitionLeads" type="radio" name="campaignType" />
+                        <label class="form-check-label" for="socialCompetitionLeads">Social Competition (Leads)</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="siteTraffic" type="radio" name="campaignType" data-sb-validations="required" />
+                        <label class="form-check-label" for="siteTraffic">Site Traffic</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="socialFollowingGrowth" type="radio" name="campaignType" data-sb-validations="required" />
+                        <label class="form-check-label" for="socialFollowingGrowth">Social Following Growth</label>
+                    </div>
+                    <div class="invalid-feedback" data-sb-feedback="campaignType:required">One option is required.</div>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="businessName" type="text" placeholder="Business Name" required></textarea>
+                    <label for="businessName">Business Name</label>
+                    <div class="invalid-feedback" data-sb-feedback="businessName:required">Business Name is required.</div>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="eventOfferDetails" type="text" placeholder="Event/Offer Details" required></textarea>
+                    <label for="eventOfferDetails">Event/Offer Details</label>
+                    <div class="invalid-feedback" data-sb-feedback="eventOfferDetails:required">Event/Offer Details is required.</div>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="keyMessages" type="text" placeholder="Key Messages" required></textarea>
+                    <label for="keyMessages">Key Messages</label>
+                    <div class="invalid-feedback" data-sb-feedback="keyMessages:required">Key Messages is required.</div>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="dates" type="text" placeholder="Dates" required></textarea>
+                    <label for="dates">Dates</label>
+                    <div class="invalid-feedback" data-sb-feedback="dates:required">Dates is required.</div>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Upload Your Logo</label>
+                    <input class="form-control" type="file" id="formFile">
+                </div>
+                <div class="mb-3">
+                    <label for="formFileMultiple" class="form-label">Upload Any Pictures/Videos</label>
+                    <input class="form-control" type="file" id="formFileMultiple" multiple>
+                </div>
+
+
+
+                <div class="mb-3">
+                    <label class="form-label d-block">Campaign Extras</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="leadPage150" value='150' type="checkbox" name="campaignExtras" data-sb-validations="" />
+                        <label class="form-check-label" for="leadPage150">Lead Page $150</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="instagramStoryAnimation450" value='450' type="checkbox" name="campaignExtras" data-sb-validations="" />
+                        <label class="form-check-label" for="instagramStoryAnimation450">Instagram Story Animation ($450)</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="carouselCreative350" value='350' type="checkbox" name="campaignExtras" data-sb-validations="" />
+                        <label class="form-check-label" for="carouselCreative350">Carousel Creative ($350)</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="automatedLead180" value='180' type="checkbox" name="campaignExtras" data-sb-validations="" />
+                        <label class="form-check-label" for="automatedLead180">Automated Lead ($180)</label>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="name" type="text" placeholder="Name" required></textarea>
+                    <label for="name">Name</label>
+                    <div class="invalid-feedback" data-sb-feedback="name:required">Name is required.</div>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="phone" type="tel" placeholder="Phone" required></textarea>
+                    <label for="phone">Phone</label>
+                    <div class="invalid-feedback" data-sb-feedback="phone:required">Phone is required.</div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="emailAddress" type="email" placeholder="Email Address" data-sb-validations="email" required />
+                    <label for="emailAddress">Email Address</label>
+                    <div class="invalid-feedback" data-sb-feedback="emailAddress:required">Email Address is required.</div>
+                    <div class="invalid-feedback" data-sb-feedback="emailAddress:email">Email Address Email is not valid.</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label d-block">Campaign Media Budget</label>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="budget" type="number" min="500" placeholder="budget" required />
+                        <label for="budget">Enter Amount ($)</label>
+                        <div class="invalid-feedback" data-sb-feedback="budget:required">Budget is Required</div>
+                    </div>
+
+
+                </div>
+
+                <div class="d-grid">
+                    <button class="btn btn-primary btn-lg " id="submitButton">Make Payment</button>
+                </div>
+                <!-- </form> -->
+        </div>
+        <div class="d-grid">
+            <button class="btn btn-primary btn-lg " id="btn">Make Payment</button>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+        <script src="temp.js"></script>
+
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+
+</body>
+
+<script type="text/javascript">
+    // Create an instance of the Stripe object with your publishable API key
+    var stripe = Stripe("pk_test_51LXJMNHaiJQbqv8nQFp9AYNjNPz7Cbaa3jYt7DmMbmLNDrOKhamoEN3yEwnyGRPJweRYwXiCf4xUQISxmwOoBcf400zkBf0FH2");
+    let budget = document.getElementById('budget');
+    let leadPage150 = document.getElementById('leadPage150');
+    let instagramStoryAnimation450 = document.getElementById('instagramStoryAnimation450');
+    let carouselCreative350 = document.getElementById('carouselCreative350');
+    let automatedLead180 = document.getElementById('automatedLead180');
+    var proxyUrl = 'https://zuhayrcors.herokuapp.com/';
+
+    var btn = document.getElementById('btn');
+    btn.addEventListener('click', async function(e) {
+        e.preventDefault();
+        let cost = 500;;
+        cost = parseFloat(budget.value);
+        if (leadPage150.checked) {
+            cost += parseFloat(leadPage150.value);
+        }
+        if (instagramStoryAnimation450.checked) {
+            cost += parseFloat(instagramStoryAnimation450.value);
+        }
+        if (carouselCreative350.checked) {
+            cost += parseFloat(carouselCreative350.value);
+        }
+        if (automatedLead180.checked) {
+            cost += parseFloat(automatedLead180.value);
+        }
+        const session = await fetch("https://serversidestripe.herokuapp.com/payment", {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({
+                "product": {
+                    "amount": cost,
+                    "quantity": 1
+                }
+            })
+        }).then(r => r.json())
+        stripe.redirectToCheckout({
+                sessionId: session.id
+            })
+            //    .then(function(response) {
+            //        return response.json();
+            //    })
+            //    .then(function(session) {
+            //        return stripe.redirectToCheckout({
+            //            sessionId: session.id
+            //        });
+            //    })
+            //    .then(function(result) {
+            //        // If redirectToCheckout fails due to a browser or network
+            //        // error, you should display the localized error message to your
+            //        // customer using error.message.
+            //        if (result.error) {
+            //            alert(result.error.message);
+            //        }
+            //    })
+            //    .catch(function(error) {
+            //        console.error("Error:", error);
+            //    });
+    });
+</script>
+
+</html>
